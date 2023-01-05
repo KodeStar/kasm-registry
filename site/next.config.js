@@ -2,15 +2,15 @@
 
 const nextConfig = {
   env: {
-    name: 'Kasm Technologies',
-    description: 'The official store for Kasm supported applications.',
-    icon: '/img/logo.svg',
-    listUrl: 'https://apps.kasmweb.com/list.json',
-    contactUrl: 'https://kasmweb.com/support',
+    name: 'KodeStar',
+    description: 'A list of applications for Kasm Workspaces curated by KodeStar',
+    icon: 'https://kodestar.github.io/kasm-registry/icon.png',
+    listUrl: 'https://kodestar.github.io/kasm-registry/list.json',
+    contactUrl: 'https://discord.com/aByT5fx',
   },
   reactStrictMode: true,
   swcMinify: true,
-  basePath: '/kasm-apps',
+  basePath: '/kasm-registry',
   trailingSlash: true,
   images: {
     unoptimized: true,
