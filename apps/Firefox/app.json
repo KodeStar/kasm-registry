@@ -1,0 +1,25 @@
+{
+  "description": "Firefox was created by Mozilla as a faster, more private alternative to browsers like Internet Explorer, and now Chrome.",
+  "docker_registry": "https://index.docker.io/v1/",
+  "image_src": "firefox.png",
+  "name": "kasmweb/firefox:develop",
+  "run_config": {
+    "hostname": "kasm"
+  },
+  "exec_config": {
+    "go": {
+      "cmd": "bash -c '/dockerstartup/custom_startup.sh --go --url \"$KASM_URL\"'"
+    },
+    "assign": {
+      "cmd": "bash -c '/dockerstartup/custom_startup.sh --assign --url \"$KASM_URL\"'"
+    }
+  },
+  "categories": [
+    "Browser"
+  ],
+  "friendly_name": "Firefox",
+  "architecture": [
+    "amd64",
+    "arm64"
+  ]
+}
