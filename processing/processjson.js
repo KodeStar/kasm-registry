@@ -29,6 +29,8 @@ glob("**/workspace.json", async function (err, files) {
 		encoding: "hex",
 	};
 
+	let channels = new Set()
+
 	for (const file of files) {
 		//files.forEach(async function(file) {
 
