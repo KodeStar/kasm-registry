@@ -1,18 +1,26 @@
 {
-    "description": "Visual Studio Code is a code editor redefined and optimized for building and debugging modern web and cloud applications.",
-    "docker_registry": "https://index.docker.io/v1/",
-    "name": "kasmweb/vs-code:develop",
-    "image_src": "vs-code.png",
-    "categories": [
-      "Development"
-    ],
-    "friendly_name": "Visual Studio Code",
-    "architecture": [
-      "amd64",
-      "arm64"
-    ],
-    "compatibility": [
-      "1.13.x"
-    ],
-    "uncompressed_size_mb": 2240
-  }
+  "description": "Visual Studio Code is a code editor redefined and optimized for building and debugging modern web and cloud applications.",
+  "docker_registry": "https://index.docker.io/v1/",
+  "image_src": "vs-code.png",
+  "categories": [
+    "Development"
+  ],
+  "friendly_name": "Visual Studio Code",
+  "architecture": [
+    "amd64",
+    "arm64"
+  ],
+  "compatibility": [
+    {
+      "version": "1.16.x",
+      "image": "kasmweb/vs-code:develop",
+      "uncompressed_size_mb": 2738,
+      "available_tags": [
+        "develop",
+        "1.16.0",
+        "1.16.0-rolling-weekly",
+        "1.16.0-rolling-daily"
+      ]
+    }
+  ]
+}

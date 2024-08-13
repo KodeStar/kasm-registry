@@ -3,6 +3,9 @@ const glob = require("glob");
 const { hashElement } = require("folder-hash");
 const nextConfig = require("../site/next.config.js")
 
+const jwt = require('jsonwebtoken'),
+	crypto = require('crypto')
+
 var dir = "./public";
 
 if (!fs.existsSync(dir)) {
@@ -10,6 +13,14 @@ if (!fs.existsSync(dir)) {
 }
 if (!fs.existsSync(dir + "/icons")) {
 	fs.mkdirSync(dir + "/icons");
+}
+
+function sortKeys(x) {
+	if (typeof x !== 'object' || !x)
+		return x;
+	if (Array.isArray(x))
+		return x.map(sortKeys);
+	return Object.keys(x).sort().reduce((o, k) => ({...o, [k]: sortKeys(x[k])}), {});
 }
 
 glob("**/workspace.json", async function (err, files) {
@@ -29,6 +40,8 @@ glob("**/workspace.json", async function (err, files) {
 		encoding: "hex",
 	};
 
+	let channels = new Set()
+
 	for (const file of files) {
 		//files.forEach(async function(file) {
 
@@ -40,6 +53,13 @@ glob("**/workspace.json", async function (err, files) {
 		let parsed = JSON.parse(filedata);
 		parsed.sha = hash.hash;
 		console.log(parsed.name + ' added')
+		parsed.compatibility.forEach((element, index) => {
+			if ('available_tags' in element) {
+				element.available_tags.forEach((el) => {
+					channels.add(el)
+				})
+			}
+		})
 		workspaces.push(parsed);
 
 		if (fs.existsSync(folder + "/" + parsed.image_src)) {
@@ -60,7 +80,26 @@ glob("**/workspace.json", async function (err, files) {
 		contact_url: nextConfig.env.contactUrl || null,
 		modified: Date.now(),
 		workspaces: workspaces,
+		channels: [...channels],
+		default_channel: '1.16.0'
 	};
+
+	if (channels.size === 0) {
+		json.default_channel = null
+	}
+
+	let copy_for_signature = JSON.parse(JSON.stringify(json));
+
+	for(let i = 0; i < copy_for_signature.workspaces.length; i++) {
+		delete copy_for_signature.workspaces[i]['description']
+		delete copy_for_signature.workspaces[i]['notes']
+	}
+	const ordered_json = JSON.stringify(sortKeys(copy_for_signature));
+
+	const hash = crypto.createHash('sha256').update(ordered_json).digest('hex');
+	const payload = {
+		hash: hash
+	}
 
 	let data = JSON.stringify(json);
 
